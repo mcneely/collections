@@ -1,0 +1,15 @@
+{
+    "name": "mcneely/collections",
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    },
+    "authors": [
+        {
+            "name": "Paul McNeely",
+            "email": "paul@paulmcneely.com"
+        }
+    ],
+    "require": {
+        "ramsey/uuid": "^3.7"
+    }
+}
