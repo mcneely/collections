@@ -10,6 +10,16 @@
         }
     ],
     "require": {
-        "ramsey/uuid": "^3.7"
+        "php":"~7.1",
+        "ramsey/uuid": "^3.7",
+        "php-ds/php-ds": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "mcneely\\collections\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --bootstrap vendor/autoload.php tests"
     }
 }

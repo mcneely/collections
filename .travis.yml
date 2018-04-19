@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+matrix:
+  fast_finish: true
+
+before_script:
+  - composer -n --prefer-source install
+
+script:
+  - vendor/bin/phpunit
