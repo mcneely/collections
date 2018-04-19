@@ -27,7 +27,7 @@ class Collection extends ArrayIterator implements DsCollection
      */
     public function count(): int
     {
-        return (int) parent::count();
+        return (int)parent::count();
     }
 
     /**
@@ -38,12 +38,22 @@ class Collection extends ArrayIterator implements DsCollection
         return $this->getArrayCopy();
     }
 
+    /**
+     * @return $this
+     */
     public function clear()
     {
-        $this->__construct([], (int) $this->getFlags());
+        $this->__construct([], (int)$this->getFlags());
+
+        return $this;
     }
 
-    public function map(callable $callback) {
+    /**
+     * @param callable $callback
+     * @return static
+     */
+    public function map(callable $callback)
+    {
         $copy = new static($this->getArrayCopy());
         foreach ($copy as $key => $item) {
             $copy->offsetSet($key, $callback($item, $key));
@@ -51,4 +61,52 @@ class Collection extends ArrayIterator implements DsCollection
 
         return $copy;
     }
+
+    /**
+     * @return mixed
+     */
+    public function first()
+    {
+        return reset($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function last()
+    {
+        return end($this);
+    }
+
+    /**
+     * @param $key
+     * @return mixed|null
+     */
+    public function remove($key)
+    {
+        $deleted = null;
+        if ($this->offsetExists($key)) {
+            $deleted = $this->offsetGet($key);
+            $this->offsetUnset($key);
+        }
+
+        return $deleted;
+    }
+
+    public function removeElement($element)
+    {
+        $key = array_search($element, $this->getArrayCopy(), true);
+        if ($key !== false) {
+            $this->offsetUnset($key);
+            return true;
+        }
+
+        return true;
+    }
+
+    public function containsKey($key)
+    {
+        return $this->offsetExists($key);
+    }
+
 }

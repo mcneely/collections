@@ -13,7 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
-    protected $initialArray = [1,2,3,4,5];
+    protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,];
+    protected $shiftedArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     /** @var Collection */
     protected $collection;
 
@@ -24,7 +25,8 @@ class CollectionTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(5,$this->collection);
+        $this->assertCount(count($this->initialArray), $this->collection);
+        $this->assertEquals(count($this->initialArray), $this->collection->count());
     }
 
     public function testToArray()
@@ -32,24 +34,54 @@ class CollectionTest extends TestCase
         $this->assertEquals($this->initialArray, $this->collection->toArray());
     }
 
+    public function testMap()
+    {
+        $newCollection = $this->collection->map(function ($item) {
+            return $item + 1;
+        });
+
+        $this->assertNotEquals($newCollection, $this);
+        $this->assertEquals($this->shiftedArray, $newCollection->toArray());
+
+    }
+
+    public function testFirst()
+    {
+        $this->assertEquals(reset($this->initialArray), $this->collection->first());
+    }
+
+    public function testLast()
+    {
+        $this->assertEquals(end($this->initialArray), $this->collection->last());
+    }
+
+    public function testRemove()
+    {
+        $this->assertEquals($this->initialArray[3], $this->collection->remove(3));
+        $this->assertLessThan(count($this->initialArray), count($this->collection->getArrayCopy()));
+    }
+
+    public function testRemoveElement() {
+        $this->collection->offsetSet('elementToBeRemoved', 'removeme');
+        $this->assertTrue($this->collection->offsetExists('elementToBeRemoved'));
+        $this->assertTrue($this->collection->removeElement('removeme'));
+        $this->assertArrayNotHasKey('elementToBeRemoved',$this->collection);
+        $this->assertFalse($this->collection->offsetExists('elementToBeRemoved'));
+    }
+
+    public function testContainsKey()
+    {
+        $this->assertFalse($this->collection->containsKey(count($this->collection->getArrayCopy())));
+        $this->assertTrue($this->collection->containsKey(0));
+    }
 
     public function testClear()
     {
         $collection = $this->collection;
         $collection->clear();
-        $this->assertCount(0,$collection);
+        $this->assertCount(0, $collection);
+        $this->assertCount(0, $collection->toArray());
+        $this->assertEquals(0, count($collection));
+        $this->assertEquals(0, count($collection->toArray()));
     }
-
-    public function testMap()
-    {
-        $expectedArray = [2,3,4,5,6];
-        $newCollection = $this->collection->map(function($item) {
-            return $item + 1;
-        });
-
-        $this->assertNotEquals($newCollection, $this);
-        $this->assertEquals($expectedArray, $newCollection->toArray());
-
-    }
-
 }
