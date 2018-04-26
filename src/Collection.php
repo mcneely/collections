@@ -30,6 +30,19 @@ class Collection extends ArrayIterator implements DsCollection
         return (int)parent::count();
     }
 
+    public function set($key, $value)
+    {
+        $this->offsetSet($key, $value);
+
+        return $this;
+    }
+
+    public function add($element)
+    {
+        $this->append($element);
+        return $this;
+    }
+
     /**
      * @return array
      */
@@ -101,7 +114,7 @@ class Collection extends ArrayIterator implements DsCollection
             return true;
         }
 
-        return true;
+        return false;
     }
 
     public function containsKey($key)

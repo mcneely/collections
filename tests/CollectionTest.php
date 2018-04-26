@@ -55,6 +55,18 @@ class CollectionTest extends TestCase
         $this->assertEquals(end($this->initialArray), $this->collection->last());
     }
 
+    public function testAdd()
+    {
+        $this->collection->add(42);
+        $this->assertEquals(42, $this->collection->last());
+    }
+
+    public function testSet()
+    {
+        $this->collection->set('elementToBeRemoved', 'removeme');
+        $this->assertTrue($this->collection->offsetExists('elementToBeRemoved'));
+    }
+
     public function testRemove()
     {
         $this->assertEquals($this->initialArray[3], $this->collection->remove(3));
@@ -67,6 +79,7 @@ class CollectionTest extends TestCase
         $this->assertTrue($this->collection->removeElement('removeme'));
         $this->assertArrayNotHasKey('elementToBeRemoved',$this->collection);
         $this->assertFalse($this->collection->offsetExists('elementToBeRemoved'));
+        $this->assertFalse($this->collection->removeElement('removeme'));
     }
 
     public function testContainsKey()

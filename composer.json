@@ -20,6 +20,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit --bootstrap vendor/autoload.php tests/"
+        "test": "phpunit --bootstrap vendor/autoload.php tests/",
+        "coverage": "phpunit --coverage-html=coverage --whitelist src/ --bootstrap vendor/autoload.php tests/"
     }
 }
