@@ -7,56 +7,19 @@
  */
 declare(strict_types=1);
 
-namespace mcneely\collections;
+namespace Mcneely\Collections;
 
-use \ArrayIterator;
-use Ds\Collection as DsCollection;
-use Ds\Traits\GenericCollection;
-
-class Collection extends ArrayIterator implements DsCollection
+class Collection extends AbstractCollection
 {
-    use GenericCollection;
 
-    public function __construct(array $array = array(), int $flags = 0)
+    public function __construct(array $array = [])
     {
-        parent::__construct($array, $flags);
-    }
-
-    /**
-     * @return int
-     */
-    public function count(): int
-    {
-        return (int)parent::count();
-    }
-
-    public function set($key, $value)
-    {
-        $this->offsetSet($key, $value);
-
-        return $this;
+        parent::__construct($array);
     }
 
     public function add($element)
     {
-        $this->append($element);
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return $this->getArrayCopy();
-    }
-
-    /**
-     * @return $this
-     */
-    public function clear()
-    {
-        $this->__construct([], (int)$this->getFlags());
+        $this->getIterator()->append($element);
 
         return $this;
     }
@@ -67,59 +30,24 @@ class Collection extends ArrayIterator implements DsCollection
      */
     public function map(callable $callback)
     {
-        $copy = new static($this->getArrayCopy());
+        $copy = new static($this->toArray());
         foreach ($copy as $key => $item) {
-            $copy->offsetSet($key, $callback($item, $key));
+            $copy->set($key, $callback($item, $key));
         }
 
         return $copy;
     }
 
-    /**
-     * @return mixed
-     */
-    public function first()
-    {
-        return reset($this);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function last()
-    {
-        return end($this);
-    }
-
-    /**
-     * @param $key
-     * @return mixed|null
-     */
-    public function remove($key)
-    {
-        $deleted = null;
-        if ($this->offsetExists($key)) {
-            $deleted = $this->offsetGet($key);
-            $this->offsetUnset($key);
-        }
-
-        return $deleted;
-    }
-
     public function removeElement($element)
     {
-        $key = array_search($element, $this->getArrayCopy(), true);
+        $key = array_search($element, $this->toArray(), true);
         if ($key !== false) {
-            $this->offsetUnset($key);
+            $this->unset($key);
+
             return true;
         }
 
         return false;
-    }
-
-    public function containsKey($key)
-    {
-        return $this->offsetExists($key);
     }
 
 }

@@ -8,7 +8,7 @@
 
 namespace tests;
 
-use mcneely\collections\Collection;
+use Mcneely\Collections\Collection;
 use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
@@ -64,27 +64,27 @@ class CollectionTest extends TestCase
     public function testSet()
     {
         $this->collection->set('elementToBeRemoved', 'removeme');
-        $this->assertTrue($this->collection->offsetExists('elementToBeRemoved'));
+        $this->assertTrue($this->collection->containsKey('elementToBeRemoved'));
     }
 
     public function testRemove()
     {
         $this->assertEquals($this->initialArray[3], $this->collection->remove(3));
-        $this->assertLessThan(count($this->initialArray), count($this->collection->getArrayCopy()));
+        $this->assertLessThan(count($this->initialArray), count($this->collection->toArray()));
     }
 
     public function testRemoveElement() {
-        $this->collection->offsetSet('elementToBeRemoved', 'removeme');
-        $this->assertTrue($this->collection->offsetExists('elementToBeRemoved'));
+        $this->collection->set('elementToBeRemoved', 'removeme');
+        $this->assertTrue($this->collection->containsKey('elementToBeRemoved'));
         $this->assertTrue($this->collection->removeElement('removeme'));
         $this->assertArrayNotHasKey('elementToBeRemoved',$this->collection);
-        $this->assertFalse($this->collection->offsetExists('elementToBeRemoved'));
+        $this->assertFalse($this->collection->containsKey('elementToBeRemoved'));
         $this->assertFalse($this->collection->removeElement('removeme'));
     }
 
     public function testContainsKey()
     {
-        $this->assertFalse($this->collection->containsKey(count($this->collection->getArrayCopy())));
+        $this->assertFalse($this->collection->containsKey(count($this->collection->toArray())));
         $this->assertTrue($this->collection->containsKey(0));
     }
 
