@@ -5,8 +5,15 @@ php:
   - 7.2
   - nightly
 
+env:
+  -  BASE_INSTALL=""
+  -  BASE_INSTALL="pecl install ds; echo 'extension = ds.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini"
+
 matrix:
   fast_finish: true
+
+before_install:
+  - eval $BASE_INSTALL
 
 before_script:
   - composer -n --prefer-source install
