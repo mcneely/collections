@@ -46,7 +46,12 @@ class NamespacedCollectionTest extends TestCase
         $this->collection->next();
         $this->collection->next();
         $this->assertEquals('FOO\\BAR\\BIZ', $this->collection->key());
-        $this->expectException(\Exception::class);
-        $this->collection->set("FOO\\BAR", "Beep");
+        $threwException = false;
+        try {
+            $this->collection->set("FOO\\BAR", "Beep");
+        } catch (\Exception $e) {
+            $threwException = true;
+        }
+        $this->assertTrue($threwException);
     }
 }
