@@ -6,7 +6,7 @@ namespace Mcneely\Collections\Traits;
  * Trait CountableTrait
  *
  * @package Mcneely\Collections\Traits
- * @method \Mcneely\Collections\CoreObject getCoreObject
+ * @method \Mcneely\Collections\CoreObject getCoreObject()
  */
 trait CountableTrait
 {

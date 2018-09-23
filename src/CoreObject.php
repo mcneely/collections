@@ -23,7 +23,7 @@ class CoreObject
     }
 
     /**
-     * @param $instance
+     * @param string $instance
      * @return boolean
      */
     public function isInstanceOf($instance)
@@ -32,7 +32,7 @@ class CoreObject
     }
 
     /**
-     * @param $method
+     * @param string $method
      * @return boolean
      */
     public function hasMethod($method)

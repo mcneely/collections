@@ -13,9 +13,9 @@ matrix:
   fast_finish: true
 
 before_script:
-  - phpenv config-rm xdebug.ini || true
+  - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
   - composer self-update
-  - composer remove phpunit/phpunit
+  - composer remove phpunit/phpunit --dev
   - composer -n --prefer-dist install
 
 script:
