@@ -5,52 +5,35 @@
  * Date: 4/17/18
  * Time: 9:12 PM
  */
-declare(strict_types=1);
 
 namespace Mcneely\Collections;
 
 use ArrayAccess;
-use ArrayIterator;
-use Ds\Collection as DsCollection;
-use Ds\Traits\GenericCollection;
 use Iterator;
-use Mcneely\Collections\Traits\ArrayAccessible;
+use Mcneely\Collections\Interfaces\CollectionInterface;
+use Mcneely\Collections\Traits\ArrayAccessTrait;
+use Mcneely\Collections\Traits\CollectionTrait;
+use Mcneely\Collections\Traits\CoreObjectTrait;
+use Mcneely\Collections\Traits\CountableTrait;
+use Mcneely\Collections\Traits\IteratorTrait;
+use Traversable;
 
-abstract class AbstractCollection implements Iterator, ArrayAccess, DsCollection
+abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionInterface
 {
-    use GenericCollection;
-    use ArrayAccessible;
-
-
-    public function __construct(array $array = array())
-    {
-        $this->setIterator(new ArrayIterator($array));
-    }
+    use CoreObjectTrait;
+    use IteratorTrait;
+    use ArrayAccessTrait;
+    use CollectionTrait;
+    use CountableTrait;
 
     /**
-     * @return int
-     */
-    public function count(): int
-    {
-        return $this->getIterator()->count();
-    }
-
-    /**
-     * @return \Mcneely\Collections\AbstractCollection
-     */
-    public function clear()
-    {
-        return $this->setIterator(new ArrayIterator());
-    }
-
-    /**
-     * Alias to satisfy Ds\Traits\GenericCollection requirements.
+     * AbstractCollection constructor.
      *
-     * @return array
+     * @param array|Traversable $items
      */
-    public function toArray(): array
+    public function __construct($items = [])
     {
-        return $this->getIterator()->getArrayCopy();
+        $this->setIterator($items);
     }
 
     /**
@@ -78,7 +61,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, DsCollection
      * @param string $index
      * @return \Mcneely\Collections\AbstractCollection
      */
-    public function unset($index)
+    public function delete($index)
     {
         return $this->offsetUnset($index);
 
@@ -87,17 +70,14 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, DsCollection
     /**
      * @return mixed
      */
-    public function first()
-    {
-        return reset($this->iterator);
-    }
-
-    /**
-     * @return mixed
-     */
     public function last()
     {
-        return end($this->iterator);
+        $return = null;
+        foreach ($this->getCoreInnerObject() as $result) {
+            $return = $result;
+        }
+
+        return $return;
     }
 
     /**
@@ -127,31 +107,14 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, DsCollection
     /**
      * @return mixed
      */
-    public function key()
+    public function first()
     {
-        return $this->getIterator()->key();
+        return $this->rewind()->current();
     }
 
-    public function current()
+    public function add($element)
     {
-        return $this->getIterator()->current();
-    }
-
-    public function next()
-    {
-        $this->getIterator()->next();
-
-        return $this;
-    }
-
-    public function valid()
-    {
-        return $this->getIterator()->valid();
-    }
-
-    public function rewind()
-    {
-        $this->getIterator()->rewind();
+        $this->getCoreInnerObject()->append($element);
 
         return $this;
     }

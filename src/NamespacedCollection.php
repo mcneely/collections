@@ -5,8 +5,6 @@
  * Date: 4/19/18
  * Time: 5:35 PM
  */
-declare(strict_types=1);
-
 namespace Mcneely\Collections;
 
 use Ramsey\Uuid;
@@ -38,7 +36,7 @@ class NamespacedCollection extends AbstractCollection
      * @return NamespacedCollection
      * @throws \Exception
      */
-    public function offsetSet($namespace, $item): NamespacedCollection
+    public function offsetSet($namespace, $item)
     {
         $uuid = $this->uuidFactory->uuid4()->toString();
         parent::offsetSet($uuid, $item);
@@ -53,7 +51,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    protected function addUuidNamespace($uuid, $namespaceList): NamespacedCollection
+    protected function addUuidNamespace($uuid, $namespaceList)
     {
         $isPrimary = !is_array($namespaceList);
         /** @var array $namespaceList */
@@ -64,21 +62,21 @@ class NamespacedCollection extends AbstractCollection
             $namespaceArray       = $this->getPathArray($namespace, $this->namespaceSeparator);
             $namespaceArray[0]    = (count(
                                          $namespaceArray
-                                     ) == 0 || empty($namespaceArray[0])) ? [self::globalNamespace] : $namespaceArray[0];
+                                     ) === 0 || empty($namespaceArray[0])) ? [self::globalNamespace] : $namespaceArray[0];
             $this->namespaceTable = $this->setValue($this->namespaceTable, $namespaceArray, $uuid);
         }
 
         return $this;
     }
 
-    protected function getPathArray($path, $separator): array
+    protected function getPathArray($path, $separator)
     {
         $path = is_array($path) ? implode($separator, $path) : $path;
 
         return explode($separator, $this->normalizeNameSpace($path));
     }
 
-    protected function normalizeNameSpace($namespace): string
+    protected function normalizeNameSpace($namespace)
     {
         return strtoupper($namespace);
     }
@@ -124,7 +122,7 @@ class NamespacedCollection extends AbstractCollection
             $results[$key] = is_array($result) ? $this->offsetGet($subKey) : $this->checkUuid($result, $namespace);
         }
 
-        return count($results) == 1 ? array_shift($results) : $results;
+        return count($results) === 1 ? array_shift($results) : $results;
     }
 
     /**
@@ -159,7 +157,7 @@ class NamespacedCollection extends AbstractCollection
         return array_reduce(
             $path,
             function ($object, $key) {
-                return $object[$key] ?? false;
+                return $object[$key] ?: false;
             },
             $object
         );
@@ -185,7 +183,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    public function offsetUnset($namespace): NamespacedCollection
+    public function offsetUnset($namespace)
     {
         $uuid = $this->checkNamespace($namespace);
         $this->checkUuid($uuid, $namespace);
@@ -210,7 +208,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    public function addNamespaceAlias($namespace, $aliasList): NamespacedCollection
+    public function addNamespaceAlias($namespace, $aliasList)
     {
         $uuid = $this->getValue($this->namespaceTable, $namespace);
         if (!$uuid) {
@@ -225,7 +223,7 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @return string
      */
-    public function getNamespaceSeparator(): string
+    public function getNamespaceSeparator()
     {
         return $this->namespaceSeparator;
     }
@@ -234,14 +232,14 @@ class NamespacedCollection extends AbstractCollection
      * @param string $namespaceSeparator
      * @return NamespacedCollection
      */
-    public function setNamespaceSeparator(string $namespaceSeparator): NamespacedCollection
+    public function setNamespaceSeparator($namespaceSeparator)
     {
         $this->namespaceSeparator = $namespaceSeparator;
 
         return $this;
     }
 
-    public function key(): string
+    public function key()
     {
         return $this->uuidTable[parent::key()][0];
     }

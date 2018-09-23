@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mcneely
- * Date: 4/17/18
- * Time: 10:44 PM
- */
 
 namespace tests;
 
@@ -13,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
-    protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,];
+    protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     protected $shiftedArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     /** @var Collection */
     protected $collection;
@@ -40,7 +34,7 @@ class CollectionTest extends TestCase
             return $item + 1;
         });
 
-        $this->assertNotEquals($newCollection, $this);
+        $this->assertNotEquals($newCollection->toArray(), $this->initialArray);
         $this->assertEquals($this->shiftedArray, $newCollection->toArray());
 
     }
