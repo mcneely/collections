@@ -15,8 +15,8 @@ matrix:
 before_script:
   - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
   - composer self-update
+  - composer -n --prefer-dist --no-update require phpunitgoodpractices/polyfill
   - composer -n --prefer-dist install --no-dev
-  - composer -n --prefer-dist require phpunitgoodpractices/polyfill
 
 script:
   - composer test
