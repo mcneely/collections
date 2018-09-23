@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "test": "phpunit --bootstrap vendor/autoload.php tests/",
+    "test": "phpunit --bootstrap tests/bootstrap.php tests/",
     "coverage": "phpunit --coverage-html=coverage --whitelist src/ --bootstrap vendor/autoload.php tests/",
     "static": "phpstan analyse -l 7 src/"
   },
