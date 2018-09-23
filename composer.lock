@@ -4,34 +4,38 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-  "hash": "42081146acdb5c5be9be252955bc8e30",
-  "content-hash": "e5d56ad2490d2739cf1a18e15459aa11",
+  "hash": "806363f09fd9b939584cf1afe7cb5f52",
+  "content-hash": "ff8cecf2afd043255bc30b4a538e4831",
     "packages": [
         {
             "name": "paragonie/random_compat",
-          "version": "v9.99.99",
+          "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-              "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95"
+              "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/paragonie/random_compat/zipball/84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
-              "reference": "84b4dfb120c6f9b4ff7b3685f9b8f1aa365a0c95",
+              "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
+              "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
                 "shasum": ""
             },
             "require": {
-              "php": "^7"
+              "php": ">=5.2.0"
             },
             "require-dev": {
-              "phpunit/phpunit": "4.*|5.*",
-              "vimeo/psalm": "^1"
+              "phpunit/phpunit": "4.*|5.*"
             },
             "suggest": {
                 "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
             },
             "type": "library",
+          "autoload": {
+            "files": [
+              "lib/random.php"
+            ]
+          },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -50,7 +54,7 @@
                 "pseudorandom",
                 "random"
             ],
-          "time": "2018-07-02 15:55:56"
+          "time": "2018-07-04 16:31:37"
         },
         {
             "name": "ramsey/uuid",
