@@ -14,8 +14,7 @@ matrix:
 
 before_script:
   - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
-  - composer self-update
-  - composer -n --prefer-dist install --no-dev
+  - composer -n --ignore-platform-reqs --prefer-dist install --no-dev
 
 script:
   - composer test
