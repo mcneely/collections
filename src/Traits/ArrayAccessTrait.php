@@ -3,7 +3,7 @@
 namespace Mcneely\Collections\Traits;
 
 /**
- * Trait ArrayAccessTrait
+ * Trait ArrayAccessTrait.
  *
  * @package Mcneely\Collections\Traits
  */

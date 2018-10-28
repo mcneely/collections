@@ -3,7 +3,7 @@
  * Created by IntelliJ IDEA.
  * User: mcneely
  * Date: 4/20/18
- * Time: 12:06 AM
+ * Time: 12:06 AM.
  */
 
 namespace tests;
@@ -13,9 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 class NamespacedCollectionTest extends TestCase
 {
-
     /**
-     * @var NamespacedCollection $collection
+     * @var NamespacedCollection
      */
     protected $collection;
 
@@ -23,7 +22,6 @@ class NamespacedCollectionTest extends TestCase
     {
         $this->collection->setNamespaceSeparator('-');
         $this->assertEquals('-', $this->collection->getNamespaceSeparator());
-
     }
 
     public function setUp()
@@ -33,22 +31,23 @@ class NamespacedCollectionTest extends TestCase
 
     public function testCollection()
     {
-        $this->collection->set("FOO\\BAR\\BAZ", "Meep");
-        $this->collection->set("FOO\\BAR\\Blip", "Moop");
+        $this->collection->set('FOO\\BAR\\BAZ', 'Meep');
+        $this->collection->set('FOO\\BAR\\Blip', 'Moop');
         $this->collection->clear();
         $this->assertCount(0, $this->collection);
-        $this->collection->set("FOO\\BAR\\BAZ", "Meep");
-        $this->collection->set("FOO\\BAR\\Blip", "Moop");
-        $this->collection->set("FOO\\BAR\\BIZ", "Miip");
-        $this->collection->set("FOO\\BEEZ\\BAZ", "Muup");
-        $this->assertEquals('Moop', $this->collection->get("FOO\\BAR\\Blip"));
+        $this->collection->set('FOO\\BAR\\BAZ', 'Meep');
+        $this->collection->set('FOO\\BAR\\Blip', 'Moop');
+        $this->collection->set('FOO\\BAR\\BIZ', 'Miip');
+        $this->collection->set('FOO\\BEEZ\\BAZ', 'Muup');
+        $this->assertEquals('Moop', $this->collection->get('FOO\\BAR\\Blip'));
         $this->collection->first();
         $this->collection->next();
         $this->collection->next();
         $this->assertEquals('FOO\\BAR\\BIZ', $this->collection->key());
         $threwException = false;
+
         try {
-            $this->collection->set("FOO\\BAR", "Beep");
+            $this->collection->set('FOO\\BAR', 'Beep');
         } catch (\Exception $e) {
             $threwException = true;
         }

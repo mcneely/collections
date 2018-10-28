@@ -8,7 +8,9 @@ use PHPUnit\Framework\TestCase;
 class CollectionTest extends TestCase
 {
     protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     protected $shiftedArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
     /** @var Collection */
     protected $collection;
 
@@ -36,7 +38,6 @@ class CollectionTest extends TestCase
 
         $this->assertNotEquals($newCollection->toArray(), $this->initialArray);
         $this->assertEquals($this->shiftedArray, $newCollection->toArray());
-
     }
 
     public function testFirst()
@@ -67,11 +68,12 @@ class CollectionTest extends TestCase
         $this->assertLessThan(count($this->initialArray), count($this->collection->toArray()));
     }
 
-    public function testRemoveElement() {
+    public function testRemoveElement()
+    {
         $this->collection->set('elementToBeRemoved', 'removeme');
         $this->assertTrue($this->collection->containsKey('elementToBeRemoved'));
         $this->assertTrue($this->collection->removeElement('removeme'));
-        $this->assertArrayNotHasKey('elementToBeRemoved',$this->collection);
+        $this->assertArrayNotHasKey('elementToBeRemoved', $this->collection);
         $this->assertFalse($this->collection->containsKey('elementToBeRemoved'));
         $this->assertFalse($this->collection->removeElement('removeme'));
     }

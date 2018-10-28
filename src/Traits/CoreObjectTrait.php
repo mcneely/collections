@@ -29,6 +29,7 @@ trait CoreObjectTrait
 
     /**
      * @param mixed $object
+     *
      * @return $this
      */
     protected function setCoreObject($object = null)

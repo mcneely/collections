@@ -3,7 +3,7 @@
  * Created by IntelliJ IDEA.
  * User: mcneely
  * Date: 4/17/18
- * Time: 9:12 PM
+ * Time: 9:12 PM.
  */
 
 namespace Mcneely\Collections;
@@ -41,6 +41,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
      *
      * @param string $key
      * @param string $value
+     *
      * @return \Mcneely\Collections\AbstractCollection
      */
     public function set($key, $value)
@@ -50,6 +51,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     public function get($key)
@@ -59,12 +61,12 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
 
     /**
      * @param string $index
+     *
      * @return \Mcneely\Collections\AbstractCollection
      */
     public function delete($index)
     {
         return $this->offsetUnset($index);
-
     }
 
     /**
@@ -82,6 +84,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
 
     /**
      * @param mixed $key
+     *
      * @return bool
      */
     public function containsKey($key)
@@ -91,6 +94,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
 
     /**
      * @param string $key
+     *
      * @return mixed|null
      */
     public function remove($key)

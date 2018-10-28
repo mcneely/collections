@@ -65,6 +65,7 @@ trait CollectionTrait
 
     /**
      * @param \Iterator|array $iterable
+     *
      * @return $this
      */
     public function setIterator($iterable)

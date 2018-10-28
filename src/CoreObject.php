@@ -24,16 +24,18 @@ class CoreObject
 
     /**
      * @param string $instance
-     * @return boolean
+     *
+     * @return bool
      */
     public function isInstanceOf($instance)
     {
-        return ($this->object instanceof $instance);
+        return $this->object instanceof $instance;
     }
 
     /**
      * @param string $method
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasMethod($method)
     {
