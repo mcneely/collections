@@ -5,6 +5,7 @@
  * Date: 4/19/18
  * Time: 5:35 PM
  */
+
 namespace Mcneely\Collections;
 
 use Ramsey\Uuid;
@@ -60,9 +61,10 @@ class NamespacedCollection extends AbstractCollection
 
         foreach ($namespaceList as $namespace) {
             $namespaceArray       = $this->getPathArray($namespace, $this->namespaceSeparator);
-            $namespaceArray[0]    = (count(
-                                         $namespaceArray
-                                     ) === 0 || empty($namespaceArray[0])) ? [self::globalNamespace] : $namespaceArray[0];
+            $namespaceArray[0]    = (
+                count($namespaceArray) === 0 ||
+                empty($namespaceArray[0])
+            ) ? [self::globalNamespace] : $namespaceArray[0];
             $this->namespaceTable = $this->setValue($this->namespaceTable, $namespaceArray, $uuid);
         }
 
@@ -241,6 +243,8 @@ class NamespacedCollection extends AbstractCollection
 
     public function key()
     {
+        $key = parent::key();
+        $table = $this->uuidTable;
         return $this->uuidTable[parent::key()][0];
     }
 
@@ -254,6 +258,16 @@ class NamespacedCollection extends AbstractCollection
         $this->uuidTable      = [];
 
         return $this;
+    }
+
+    public function toArray()
+    {
+        $result = [];
+        foreach (parent::toArray() as $key => $value) {
+            $result[] = $this->uuidTable[$key][0];
+        }
+
+        return $result;
     }
 
 

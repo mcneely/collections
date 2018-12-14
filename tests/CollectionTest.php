@@ -28,9 +28,9 @@ class CollectionTest extends TestCase
         $this->assertEquals($this->initialArray, $this->collection->toArray());
     }
 
-    public function testMap()
+    public function testEach()
     {
-        $newCollection = $this->collection->map(function ($item) {
+        $newCollection = $this->collection->each(function ($item) {
             return $item + 1;
         });
 

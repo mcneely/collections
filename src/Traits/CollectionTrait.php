@@ -3,16 +3,36 @@
 namespace Mcneely\Collections\Traits;
 
 use ArrayIterator;
-use Iterator;
+use Mcneely\Core\CoreObject;
+use Traversable;
 use UnexpectedValueException;
 
+/**
+ * Trait CollectionTrait
+ *
+ * @package Mcneely\Collections\Traits
+ * @method CoreObject getCoreObject_CoreTrait()
+ * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
+ */
 trait CollectionTrait
 {
+    public function clear()
+    {
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+
+        $class = $this->getCoreObject_CoreTrait()->getClass();
+        $this->setIterator(new $class());
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */
     public function copy()
     {
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+
         return new static();
     }
 
@@ -21,15 +41,9 @@ trait CollectionTrait
      */
     public function isEmpty()
     {
-        return empty($this->getCoreInnerObject());
-    }
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
+        return empty($this->getCoreObject_CoreTrait()->getObject());
     }
 
     /**
@@ -37,7 +51,9 @@ trait CollectionTrait
      */
     public function toArray()
     {
-        return iterator_to_array($this->getCoreInnerObject());
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+
+        return iterator_to_array($this->getCoreObject_CoreTrait()->getObject());
     }
 
     /**
@@ -53,31 +69,31 @@ trait CollectionTrait
      */
     public function __toString()
     {
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+
         return 'object('.get_class($this).')';
     }
 
-    public function clear()
-    {
-        $this->setIterator(new ArrayIterator([]));
-
-        return $this;
-    }
-
     /**
-     * @param \Iterator|array $iterable
+     * @param \Traversable|array $iterable
+     *
      * @return $this
      */
-    public function setIterator($iterable)
+    protected function setIterator($iterable)
     {
         if (is_array($iterable)) {
             $iterable = new ArrayIterator($iterable);
         }
 
-        if (!($iterable instanceof Iterator)) {
+        if (!($iterable instanceof Traversable)) {
             throw new UnexpectedValueException('Expected: array or Iterator as input');
         }
 
-        $this->setCoreObject($iterable);
+        if ($iterable instanceof \IteratorAggregate) {
+            $iterable = $iterable->getIterator();
+        }
+
+        $this->setCoreObject_CoreTrait($iterable);
 
         return $this;
     }

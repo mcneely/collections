@@ -11,20 +11,22 @@ namespace Mcneely\Collections;
 use ArrayAccess;
 use Iterator;
 use Mcneely\Collections\Interfaces\CollectionInterface;
-use Mcneely\Collections\Traits\ArrayAccessTrait;
 use Mcneely\Collections\Traits\CollectionTrait;
-use Mcneely\Collections\Traits\CoreObjectTrait;
-use Mcneely\Collections\Traits\CountableTrait;
-use Mcneely\Collections\Traits\IteratorTrait;
+use Mcneely\Core\Traits\ArrayAccessTrait;
+use Mcneely\Core\Traits\CoreTrait;
+use Mcneely\Core\Traits\CountableTrait;
+use Mcneely\Core\Traits\GeneratorTrait;
+use Mcneely\Core\Traits\IteratorTrait;
 use Traversable;
 
 abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionInterface
 {
-    use CoreObjectTrait;
+    use CoreTrait;
     use IteratorTrait;
     use ArrayAccessTrait;
     use CollectionTrait;
     use CountableTrait;
+    use GeneratorTrait;
 
     /**
      * AbstractCollection constructor.
@@ -34,6 +36,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
     public function __construct($items = [])
     {
         $this->setIterator($items);
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
     }
 
     /**
@@ -73,7 +76,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
     public function last()
     {
         $return = null;
-        foreach ($this->getCoreInnerObject() as $result) {
+        foreach ($this->getCoreObject_CoreTrait()->getObject() as $result) {
             $return = $result;
         }
 
@@ -109,12 +112,15 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, CollectionIn
      */
     public function first()
     {
-        return $this->rewind()->current();
+        return $this->rewind()
+                    ->current();
     }
 
     public function add($element)
     {
-        $this->getCoreInnerObject()->append($element);
+        $this->getCoreObject_CoreTrait()
+             ->getObject(false)
+             ->append($element);
 
         return $this;
     }

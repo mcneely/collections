@@ -7,21 +7,36 @@
  */
 
 namespace Mcneely\Collections;
-
+use Mcneely\Collections\Traits\LazyLoadingTrait;
 class Collection extends AbstractCollection
 {
+    use LazyLoadingTrait;
     /**
      * @param callable $callback
      * @return static
      */
-    public function map(callable $callback)
+    public function each(callable $callback)
     {
+        $object = $this->getCoreObject_CoreTrait()->getObject();
 
-        foreach ($this->toArray() as $key => $item) {
-            $this->set($key, $callback($item, $key));
+        $iterator = new \ArrayIterator([]);
+        foreach ($object as $key => $value) {
+            $iterator->offsetSet($key, $callback($value, $key));
         }
 
+        $this->setIterator($iterator);
+
         return $this;
+    }
+
+    public function map(callable  $callback, $extra) {
+        $return = [];
+        foreach ($this->getCoreObject_CoreTrait()->getObject() as $key => $item) {
+            $combined = array_merge([$item, $key], $extra);
+            $return = call_user_func_array($callback, $combined);
+        }
+
+        return $return;
     }
 
     public function removeElement($element)

@@ -13,7 +13,8 @@
   "require": {
     "php": ">=5.5",
     "ramsey/uuid": "^3.7",
-    "paragonie/random_compat": "<9.99"
+    "paragonie/random_compat": "<9.99",
+    "mcneely/core": "dev-master"
   },
   "autoload": {
     "psr-4": {

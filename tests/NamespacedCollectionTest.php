@@ -43,8 +43,11 @@ class NamespacedCollectionTest extends TestCase
         $this->collection->set("FOO\\BEEZ\\BAZ", "Muup");
         $this->assertEquals('Moop', $this->collection->get("FOO\\BAR\\Blip"));
         $this->collection->first();
+        $key = $this->collection->key();
         $this->collection->next();
+        $key = $this->collection->key();
         $this->collection->next();
+        $key = $this->collection->key();
         $this->assertEquals('FOO\\BAR\\BIZ', $this->collection->key());
         $threwException = false;
         try {
