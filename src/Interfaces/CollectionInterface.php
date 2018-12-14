@@ -3,36 +3,35 @@
  * Created by IntelliJ IDEA.
  * User: mcneely
  * Date: 9/20/18
- * Time: 11:15 PM
+ * Time: 11:15 PM.
  */
 
 namespace Mcneely\Collections\Interfaces;
-
 
 interface CollectionInterface extends \Traversable, \Countable
 {
     /**
      * @return mixed
      */
-    function clear();
+    public function clear();
 
     /**
      * @return mixed
      */
-    function copy();
+    public function copy();
 
     /**
-     * @return integer
+     * @return int
      */
-    function count();
+    public function count();
 
     /**
-     * @return boolean
+     * @return bool
      */
-    function isEmpty();
+    public function isEmpty();
 
     /**
      * @return array
      */
-    function toArray();
+    public function toArray();
 }

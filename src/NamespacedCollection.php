@@ -3,7 +3,7 @@
  * Created by IntelliJ IDEA.
  * User: mcneely
  * Date: 4/19/18
- * Time: 5:35 PM
+ * Time: 5:35 PM.
  */
 
 namespace Mcneely\Collections;
@@ -12,7 +12,7 @@ use Ramsey\Uuid;
 
 class NamespacedCollection extends AbstractCollection
 {
-    const globalNamespace = "GLOBAL";
+    const globalNamespace = 'GLOBAL';
 
     protected $namespaceSeparator = '\\';
 
@@ -23,7 +23,7 @@ class NamespacedCollection extends AbstractCollection
     protected $uuidFactory;
 
     /**
-     * NamespacedCollection constructor
+     * NamespacedCollection constructor.
      */
     public function __construct()
     {
@@ -33,8 +33,10 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string|array $namespace
-     * @param  mixed       $item
+     * @param mixed        $item
+     *
      * @return NamespacedCollection
+     *
      * @throws \Exception
      */
     public function offsetSet($namespace, $item)
@@ -47,9 +49,11 @@ class NamespacedCollection extends AbstractCollection
     }
 
     /**
-     * @param  string      $uuid
+     * @param string       $uuid
      * @param string|array $namespaceList
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     protected function addUuidNamespace($uuid, $namespaceList)
@@ -62,7 +66,7 @@ class NamespacedCollection extends AbstractCollection
         foreach ($namespaceList as $namespace) {
             $namespaceArray       = $this->getPathArray($namespace, $this->namespaceSeparator);
             $namespaceArray[0]    = (
-                count($namespaceArray) === 0 ||
+                0 === count($namespaceArray) ||
                 empty($namespaceArray[0])
             ) ? [self::globalNamespace] : $namespaceArray[0];
             $this->namespaceTable = $this->setValue($this->namespaceTable, $namespaceArray, $uuid);
@@ -87,7 +91,9 @@ class NamespacedCollection extends AbstractCollection
      * @param array        $input
      * @param string|array $path
      * @param mixed        $value
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function setValue($input, $path, $value)
@@ -97,7 +103,7 @@ class NamespacedCollection extends AbstractCollection
 
         if (empty($path) && array_key_exists($key, $input)) {
             if (is_array($input[$key])) {
-                throw new \Exception("Can not replace Key path with Item");
+                throw new \Exception('Can not replace Key path with Item');
             }
 
             parent::offsetUnset($input[$key]);
@@ -111,7 +117,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function offsetGet($namespace)
@@ -124,13 +132,15 @@ class NamespacedCollection extends AbstractCollection
             $results[$key] = is_array($result) ? $this->offsetGet($subKey) : $this->checkUuid($result, $namespace);
         }
 
-        return count($results) === 1 ? array_shift($results) : $results;
+        return 1 === count($results) ? array_shift($results) : $results;
     }
 
     /**
      * @param string $namespace
      * @param bool   $returnBoolean
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function checkNamespace($namespace, $returnBoolean = false)
@@ -150,6 +160,7 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param array  $object
      * @param string $path
+     *
      * @return mixed
      */
     protected function getValue($object, $path)
@@ -168,7 +179,9 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param string $uuid
      * @param string $namespace
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function checkUuid($uuid, $namespace)
@@ -182,7 +195,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     public function offsetUnset($namespace)
@@ -196,7 +211,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return bool|mixed
+     *
      * @throws \Exception
      */
     public function offsetExists($namespace)
@@ -207,7 +224,9 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param string       $namespace
      * @param string|array $aliasList
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     public function addNamespaceAlias($namespace, $aliasList)
@@ -232,6 +251,7 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespaceSeparator
+     *
      * @return NamespacedCollection
      */
     public function setNamespaceSeparator($namespaceSeparator)
@@ -243,8 +263,9 @@ class NamespacedCollection extends AbstractCollection
 
     public function key()
     {
-        $key = parent::key();
+        $key   = parent::key();
         $table = $this->uuidTable;
+
         return $this->uuidTable[parent::key()][0];
     }
 
@@ -269,6 +290,4 @@ class NamespacedCollection extends AbstractCollection
 
         return $result;
     }
-
-
 }

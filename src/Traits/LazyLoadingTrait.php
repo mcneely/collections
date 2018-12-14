@@ -3,7 +3,7 @@
  * Created by IntelliJ IDEA.
  * User: mcneely
  * Date: 9/29/18
- * Time: 8:15 PM
+ * Time: 8:15 PM.
  */
 
 namespace Mcneely\Collections\Traits;
@@ -11,9 +11,10 @@ namespace Mcneely\Collections\Traits;
 use Mcneely\Core\CoreObject;
 
 /**
- * Trait LazyLoadingTrait
+ * Trait LazyLoadingTrait.
  *
  * @package Mcneely\Collections\Traits
+ *
  * @method void LazyLoadingInitialize()
  * @method CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)

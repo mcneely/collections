@@ -8,9 +8,10 @@ use Traversable;
 use UnexpectedValueException;
 
 /**
- * Trait CollectionTrait
+ * Trait CollectionTrait.
  *
  * @package Mcneely\Collections\Traits
+ *
  * @method CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
  */
