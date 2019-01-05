@@ -85,10 +85,10 @@ interface CollectionInterface extends \Iterator, \Countable
 
     /**
      * @param callable   $callback
-     * @param array|null $extra
+     * @param array $extra
      * @return array
      */
-    public function map(callable $callback, ?array $extra = []): array;
+    public function map(callable $callback, array $extra = []): array;
 
     /**
      * @param mixed $element

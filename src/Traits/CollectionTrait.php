@@ -219,10 +219,10 @@ trait CollectionTrait
 
     /**
      * @param callable   $callback
-     * @param array|null $extra
+     * @param array $extra
      * @return array
      */
-    public function map(callable $callback, ?array $extra = []): array
+    public function map(callable $callback, array $extra = []): array
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 

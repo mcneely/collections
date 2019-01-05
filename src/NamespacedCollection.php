@@ -77,8 +77,8 @@ class NamespacedCollection extends AbstractCollection
     protected function getPathArray($path, string $separator): array
     {
         $path = is_array($path) ? implode($separator, $path) : $path;
-
-        return explode($separator, $this->normalizeNameSpace($path));
+        $pathArray = explode($separator, $this->normalizeNameSpace($path));
+        return is_array($pathArray) ? $pathArray : [];
     }
 
     /**
