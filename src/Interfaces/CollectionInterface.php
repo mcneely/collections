@@ -1,50 +1,54 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Mcneely\Collections\Interfaces;
-
 
 interface CollectionInterface extends \Iterator, \Countable
 {
     /**
      * @return self
      */
-    function clear();
+    public function clear();
 
     /**
      * @return self
      */
-    function copy();
+    public function copy();
 
     /**
-     * @return integer
+     * @return int
      */
-    function count(): int;
+    public function count(): int;
 
     /**
-     * @return boolean
+     * @return bool
      */
-    function isEmpty(): bool;
+    public function isEmpty(): bool;
 
     /**
      * @return array
      */
-    function toArray(): array;
+    public function toArray(): array;
 
     /**
      * @param string $key
      * @param mixed  $value
+     *
      * @return self
      */
     public function set(string $key, $value);
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     public function get(string $key);
 
     /**
      * @param string $index
+     *
      * @return self
      */
     public function delete(string $index);
@@ -56,12 +60,14 @@ interface CollectionInterface extends \Iterator, \Countable
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function containsKey(string $key): bool;
 
     /**
      * @param string $key
+     *
      * @return mixed|null
      */
     public function remove(string $key);
@@ -73,25 +79,29 @@ interface CollectionInterface extends \Iterator, \Countable
 
     /**
      * @param mixed $element
+     *
      * @return self
      */
     public function add($element);
 
     /**
      * @param callable $callback
+     *
      * @return static
      */
     public function each(callable $callback);
 
     /**
-     * @param callable   $callback
-     * @param array $extra
+     * @param callable $callback
+     * @param array    $extra
+     *
      * @return array
      */
     public function map(callable $callback, array $extra = []): array;
 
     /**
      * @param mixed $element
+     *
      * @return bool
      */
     public function removeElement($element): bool;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Mcneely\Collections;
 
@@ -13,9 +15,9 @@ use Mcneely\Core\Traits\IteratorTrait;
 use Traversable;
 
 /**
- * Class AbstractCollection
- * @package Mcneely\Collections
+ * Class AbstractCollection.
  *
+ * @package Mcneely\Collections
  */
 abstract class AbstractCollection implements Iterator, CollectionInterface, ArrayAccess
 {

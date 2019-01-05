@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Mcneely\Collections;
 
@@ -6,7 +8,7 @@ use Ramsey\Uuid;
 
 class NamespacedCollection extends AbstractCollection
 {
-    const globalNamespace = "GLOBAL";
+    const globalNamespace = 'GLOBAL';
 
     /** @var string $namespaceSeparator */
     protected $namespaceSeparator = '\\';
@@ -21,7 +23,7 @@ class NamespacedCollection extends AbstractCollection
     protected $uuidFactory;
 
     /**
-     * NamespacedCollection constructor
+     * NamespacedCollection constructor.
      */
     public function __construct()
     {
@@ -31,8 +33,10 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string|array $namespace
-     * @param  mixed       $item
+     * @param mixed        $item
+     *
      * @return NamespacedCollection
+     *
      * @throws \Exception
      */
     public function offsetSet($namespace, $item): self
@@ -45,9 +49,11 @@ class NamespacedCollection extends AbstractCollection
     }
 
     /**
-     * @param  string      $uuid
+     * @param string       $uuid
      * @param string|array $namespaceList
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     protected function addUuidNamespace($uuid, $namespaceList): self
@@ -60,7 +66,7 @@ class NamespacedCollection extends AbstractCollection
         foreach ($namespaceList as $namespace) {
             $namespaceArray       = $this->getPathArray($namespace, $this->namespaceSeparator);
             $namespaceArray[0]    = (
-                count($namespaceArray) === 0 ||
+                0 === count($namespaceArray) ||
                 empty($namespaceArray[0])
             ) ? [self::globalNamespace] : $namespaceArray[0];
             $this->namespaceTable = $this->setValue($this->namespaceTable, $namespaceArray, $uuid);
@@ -72,17 +78,20 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param array|string $path
      * @param string       $separator
+     *
      * @return array
      */
     protected function getPathArray($path, string $separator): array
     {
-        $path = is_array($path) ? implode($separator, $path) : $path;
+        $path      = is_array($path) ? implode($separator, $path) : $path;
         $pathArray = explode($separator, $this->normalizeNameSpace($path));
+
         return is_array($pathArray) ? $pathArray : [];
     }
 
     /**
      * @param string $namespace
+     *
      * @return string
      */
     protected function normalizeNameSpace(string $namespace): string
@@ -94,7 +103,9 @@ class NamespacedCollection extends AbstractCollection
      * @param array        $input
      * @param string|array $path
      * @param mixed        $value
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function setValue($input, $path, $value)
@@ -104,7 +115,7 @@ class NamespacedCollection extends AbstractCollection
 
         if (empty($path) && array_key_exists($key, $input)) {
             if (is_array($input[$key])) {
-                throw new \Exception("Can not replace Key path with Item");
+                throw new \Exception('Can not replace Key path with Item');
             }
 
             parent::offsetUnset($input[$key]);
@@ -118,7 +129,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function offsetGet($namespace)
@@ -131,13 +144,15 @@ class NamespacedCollection extends AbstractCollection
             $results[$key] = is_array($result) ? $this->offsetGet($subKey) : $this->checkUuid($result, $namespace);
         }
 
-        return count($results) === 1 ? array_shift($results) : $results;
+        return 1 === count($results) ? array_shift($results) : $results;
     }
 
     /**
      * @param string $namespace
      * @param bool   $returnBoolean
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function checkNamespace($namespace, $returnBoolean = false)
@@ -157,6 +172,7 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param array  $object
      * @param string $path
+     *
      * @return mixed
      */
     protected function getValue($object, $path)
@@ -168,6 +184,7 @@ class NamespacedCollection extends AbstractCollection
             /**
              * @param array  $object
              * @param string $key
+             *
              * @return mixed
              */
             function (array $object, string $key) {
@@ -180,7 +197,9 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param string $uuid
      * @param string $namespace
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function checkUuid($uuid, $namespace)
@@ -194,7 +213,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     public function offsetUnset($namespace): self
@@ -208,7 +229,9 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function offsetExists($namespace): bool
@@ -219,7 +242,9 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @param string       $namespace
      * @param string|array $aliasList
+     *
      * @return \Mcneely\Collections\NamespacedCollection
+     *
      * @throws \Exception
      */
     public function addNamespaceAlias($namespace, $aliasList): self
@@ -244,6 +269,7 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespaceSeparator
+     *
      * @return NamespacedCollection
      */
     public function setNamespaceSeparator($namespaceSeparator): self
