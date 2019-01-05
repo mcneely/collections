@@ -1,10 +1,4 @@
-<?php
-/**
- * Created by IntelliJ IDEA.
- * User: mcneely
- * Date: 4/19/18
- * Time: 5:35 PM
- */
+<?php declare(strict_types=1);
 
 namespace Mcneely\Collections;
 
@@ -14,12 +8,16 @@ class NamespacedCollection extends AbstractCollection
 {
     const globalNamespace = "GLOBAL";
 
+    /** @var string $namespaceSeparator */
     protected $namespaceSeparator = '\\';
 
+    /** @var array $namespaceTable */
     protected $namespaceTable = [];
 
+    /** @var array $uuidTable */
     protected $uuidTable = [];
 
+    /** @var Uuid\UuidFactory $uuidFactory */
     protected $uuidFactory;
 
     /**
@@ -37,7 +35,7 @@ class NamespacedCollection extends AbstractCollection
      * @return NamespacedCollection
      * @throws \Exception
      */
-    public function offsetSet($namespace, $item)
+    public function offsetSet($namespace, $item): self
     {
         $uuid = $this->uuidFactory->uuid4()->toString();
         parent::offsetSet($uuid, $item);
@@ -52,7 +50,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    protected function addUuidNamespace($uuid, $namespaceList)
+    protected function addUuidNamespace($uuid, $namespaceList): self
     {
         $isPrimary = !is_array($namespaceList);
         /** @var array $namespaceList */
@@ -71,14 +69,23 @@ class NamespacedCollection extends AbstractCollection
         return $this;
     }
 
-    protected function getPathArray($path, $separator)
+    /**
+     * @param array|string $path
+     * @param string       $separator
+     * @return array
+     */
+    protected function getPathArray($path, string $separator): array
     {
         $path = is_array($path) ? implode($separator, $path) : $path;
 
         return explode($separator, $this->normalizeNameSpace($path));
     }
 
-    protected function normalizeNameSpace($namespace)
+    /**
+     * @param string $namespace
+     * @return string
+     */
+    protected function normalizeNameSpace(string $namespace): string
     {
         return strtoupper($namespace);
     }
@@ -158,8 +165,13 @@ class NamespacedCollection extends AbstractCollection
 
         return array_reduce(
             $path,
-            function ($object, $key) {
-                return $object[$key] ?: false;
+            /**
+             * @param array  $object
+             * @param string $key
+             * @return mixed
+             */
+            function (array $object, string $key) {
+                return $object[$key] ?? false;
             },
             $object
         );
@@ -185,7 +197,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    public function offsetUnset($namespace)
+    public function offsetUnset($namespace): self
     {
         $uuid = $this->checkNamespace($namespace);
         $this->checkUuid($uuid, $namespace);
@@ -196,10 +208,10 @@ class NamespacedCollection extends AbstractCollection
 
     /**
      * @param string $namespace
-     * @return bool|mixed
+     * @return bool
      * @throws \Exception
      */
-    public function offsetExists($namespace)
+    public function offsetExists($namespace): bool
     {
         return $this->checkNamespace($namespace, true);
     }
@@ -210,7 +222,7 @@ class NamespacedCollection extends AbstractCollection
      * @return \Mcneely\Collections\NamespacedCollection
      * @throws \Exception
      */
-    public function addNamespaceAlias($namespace, $aliasList)
+    public function addNamespaceAlias($namespace, $aliasList): self
     {
         $uuid = $this->getValue($this->namespaceTable, $namespace);
         if (!$uuid) {
@@ -225,7 +237,7 @@ class NamespacedCollection extends AbstractCollection
     /**
      * @return string
      */
-    public function getNamespaceSeparator()
+    public function getNamespaceSeparator(): string
     {
         return $this->namespaceSeparator;
     }
@@ -234,22 +246,20 @@ class NamespacedCollection extends AbstractCollection
      * @param string $namespaceSeparator
      * @return NamespacedCollection
      */
-    public function setNamespaceSeparator($namespaceSeparator)
+    public function setNamespaceSeparator($namespaceSeparator): self
     {
         $this->namespaceSeparator = $namespaceSeparator;
 
         return $this;
     }
 
-    public function key()
+    public function key(): string
     {
-        $key = parent::key();
-        $table = $this->uuidTable;
         return $this->uuidTable[parent::key()][0];
     }
 
     /**
-     * @return $this|\Mcneely\Collections\AbstractCollection
+     * @return self
      */
     public function clear()
     {
@@ -260,15 +270,13 @@ class NamespacedCollection extends AbstractCollection
         return $this;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $result = [];
         foreach (parent::toArray() as $key => $value) {
-            $result[] = $this->uuidTable[$key][0];
+            $result[$this->uuidTable[$key][0]] = $value;
         }
 
         return $result;
     }
-
-
 }

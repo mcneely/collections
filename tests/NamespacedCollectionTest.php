@@ -18,6 +18,7 @@ class NamespacedCollectionTest extends TestCase
      * @var NamespacedCollection $collection
      */
     protected $collection;
+    protected $expectedArray;
 
     public function testSetNamespaceSeparator()
     {
@@ -28,33 +29,65 @@ class NamespacedCollectionTest extends TestCase
 
     public function setUp()
     {
-        $this->collection = new NamespacedCollection();
+        $this->expectedArray = [
+            'FOO\\BAR\\BAZ'  => 'Meep',
+            'FOO\\BAR\\Blip' => 'Moop',
+        ];
+        $this->collection    = new NamespacedCollection();
+        foreach ($this->expectedArray as $key => $value) {
+            $this->collection->set($key, $value);
+        }
+    }
+
+    public function testClear()
+    {
+        $this->collection->clear();
+        $this->assertCount(0, $this->collection);
     }
 
     public function testCollection()
     {
-        $this->collection->set("FOO\\BAR\\BAZ", "Meep");
-        $this->collection->set("FOO\\BAR\\Blip", "Moop");
-        $this->collection->clear();
-        $this->assertCount(0, $this->collection);
-        $this->collection->set("FOO\\BAR\\BAZ", "Meep");
-        $this->collection->set("FOO\\BAR\\Blip", "Moop");
+        $this->collection->set("FOO\\BAR\\BAZ", "Zirp");
         $this->collection->set("FOO\\BAR\\BIZ", "Miip");
         $this->collection->set("FOO\\BEEZ\\BAZ", "Muup");
         $this->assertEquals('Moop', $this->collection->get("FOO\\BAR\\Blip"));
         $this->collection->first();
-        $key = $this->collection->key();
+        $this->collection->key();
         $this->collection->next();
-        $key = $this->collection->key();
+        $this->collection->key();
         $this->collection->next();
-        $key = $this->collection->key();
+        $this->collection->key();
         $this->assertEquals('FOO\\BAR\\BIZ', $this->collection->key());
-        $threwException = false;
-        try {
-            $this->collection->set("FOO\\BAR", "Beep");
-        } catch (\Exception $e) {
-            $threwException = true;
-        }
-        $this->assertTrue($threwException);
+        $this->assertFalse($this->collection->offsetExists("FOO\\BAR\\BOZ"));
+        $this->expectException(\Exception::class);
+        $this->collection->set("FOO\\BAR", "Beep");
+
+    }
+
+    public function testOffsetGetException()
+    {
+        $this->expectException(\Exception::class);
+        $this->collection->get("FOO\\BAR\\BOZ");
+    }
+
+    public function testNameSpaceAlias()
+    {
+        $this->collection->addNamespaceAlias("FOO\\BAR\\Blip", "FOO\\BAR\\ZOOM");
+        $this->assertEquals($this->collection->get("FOO\\BAR\\Blip"), $this->collection->get("FOO\\BAR\\ZOOM"));
+        $this->collection->offsetUnset("FOO\\BAR\\Blip");
+        $this->expectException(\Exception::class);
+        $this->collection->offsetUnset("FOO\\BAR\\ZOOM");
+    }
+
+    public function testNameSpaceAliasException()
+    {
+        $this->expectException(\Exception::class);
+        $this->collection->addNamespaceAlias("FOO\\BAR\\KABOOM", "FOO\\BAR\\ZOOM");
+    }
+
+    public function testToArray()
+    {
+        $array = $this->collection->toArray();
+        $this->assertEquals($this->expectedArray, $array);
     }
 }
