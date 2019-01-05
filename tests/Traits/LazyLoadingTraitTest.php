@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: mcneely
  * Date: 1/5/19
- * Time: 10:33 AM
+ * Time: 10:33 AM.
  */
 
 namespace tests\Traits;
@@ -39,5 +39,4 @@ class LazyLoadingTraitTest extends TestCase
     {
         $this->initializeFired = true;
     }
-
 }

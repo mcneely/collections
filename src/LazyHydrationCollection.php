@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Mcneely\Collections;
 
@@ -9,6 +11,7 @@ class LazyHydrationCollection extends AbstractCollection
 
     /**
      * @param string $hydratedClass
+     *
      * @return self
      */
     public function setClass(string $hydratedClass): self
@@ -36,7 +39,7 @@ class LazyHydrationCollection extends AbstractCollection
             $retriever = function ($object) use ($retriever) {
                 $object = call_user_func($retriever, $object);
                 foreach ($object as $key => $value) {
-                    yield $key => $value;
+                    yield $key           => $value;
                 }
             };
         }
