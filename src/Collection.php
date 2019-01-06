@@ -2,12 +2,11 @@
 
 namespace Mcneely\Collections;
 
-
 /**
- * Class Collection
+ * Class Collection.
+ *
  * @package Mcneely\Collections
  */
 class Collection extends AbstractCollection
 {
-
 }

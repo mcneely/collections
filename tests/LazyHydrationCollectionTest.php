@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class Test
 {
-    /** @var integer $value */
+    /** @var int $value */
     private $value = null;
 
     /**
@@ -20,6 +20,7 @@ class Test
 
     /**
      * @param int $value
+     *
      * @return Test
      */
     public function setValue(int $value): Test
@@ -33,6 +34,7 @@ class Test
 class LazyHydrationCollectionTest extends TestCase
 {
     protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     /** @var LazyHydrationCollection $collection */
     protected $collection;
 
@@ -45,7 +47,7 @@ class LazyHydrationCollectionTest extends TestCase
     public function testSetHydrator()
     {
         $hydrator = function ($data, $class) {
-            /** @var Test $class */
+            /* @var Test $class */
             return $class->setValue($data);
         };
 
@@ -53,7 +55,7 @@ class LazyHydrationCollectionTest extends TestCase
 
         $array = $this->collection->map(
             function ($object) {
-                /** @var Test $object */
+                /* @var Test $object */
                 return $object->getValue();
             }
         );
@@ -64,7 +66,7 @@ class LazyHydrationCollectionTest extends TestCase
     public function testSetHydratorGenerator()
     {
         $hydrator = function ($data, $class) {
-            /** @var Test $class */
+            /* @var Test $class */
             return $class->setValue($data);
         };
 
@@ -72,7 +74,7 @@ class LazyHydrationCollectionTest extends TestCase
 
         $array = $this->collection->map(
             function ($object) {
-                /** @var Test $object */
+                /* @var Test $object */
                 return $object->getValue();
             }
         );

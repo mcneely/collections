@@ -5,9 +5,10 @@ namespace Mcneely\Collections\Traits;
 use Mcneely\Core\CoreObject;
 
 /**
- * Trait LazyLoadingTrait
+ * Trait LazyLoadingTrait.
  *
  * @package Mcneely\Collections\Traits
+ *
  * @method void initialize()
  * @method CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
