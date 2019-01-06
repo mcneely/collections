@@ -11,16 +11,16 @@ use Traversable;
 use UnexpectedValueException;
 
 /**
- * Trait CollectionTrait
+ * Trait CollectionTrait.
  *
  * @package Mcneely\Collections\Traits
+ *
  * @method CoreObject CoreTrait_getCoreObject()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
  * @method IteratorTrait rewind()
  */
 trait CollectionTrait
 {
-
     /** @var string $CollectionTrait_Class */
     protected $CollectionTrait_Class;
 
@@ -30,7 +30,7 @@ trait CollectionTrait
     public function clear()
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
-        $class = new $this->CollectionTrait_Class;
+        $class = new $this->CollectionTrait_Class();
         $this->setIterator($class);
 
         return $this;
@@ -94,13 +94,13 @@ trait CollectionTrait
             return $object->getArrayCopy();
         }
 
-        return (array)$object;
+        return (array) $object;
     }
 
     /**
-     *
      * @param string $key
      * @param mixed  $value
+     *
      * @return self
      */
     public function set(string $key, $value)
@@ -112,6 +112,7 @@ trait CollectionTrait
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     public function get(string $key)
@@ -138,6 +139,7 @@ trait CollectionTrait
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function containsKey(string $key): bool
@@ -149,6 +151,7 @@ trait CollectionTrait
 
     /**
      * @param string $key
+     *
      * @return mixed|null
      */
     public function remove(string $key)
@@ -179,6 +182,7 @@ trait CollectionTrait
 
     /**
      * @param mixed $element
+     *
      * @return self
      */
     public function add($element)
@@ -195,7 +199,9 @@ trait CollectionTrait
 
     /**
      * @param callable $callback
+     *
      * @return static
+     *
      * @method CoreObject CoreTrait_getCoreObject()
      */
     public function each(callable $callback)
@@ -209,7 +215,7 @@ trait CollectionTrait
 
         $iterator = new \ArrayIterator([]);
         foreach ($object as $key => $value) {
-            $iterator->offsetSet((string)$key, call_user_func_array($callback, [$value, (string)$key]));
+            $iterator->offsetSet((string) $key, call_user_func_array($callback, [$value, (string) $key]));
         }
 
         $this->setIterator($iterator);
@@ -218,8 +224,9 @@ trait CollectionTrait
     }
 
     /**
-     * @param callable   $callback
-     * @param array $extra
+     * @param callable $callback
+     * @param array    $extra
+     *
      * @return array
      */
     public function map(callable $callback, array $extra = []): array
@@ -237,6 +244,7 @@ trait CollectionTrait
 
     /**
      * @param mixed $element
+     *
      * @return bool
      */
     public function removeElement($element): bool
@@ -244,7 +252,7 @@ trait CollectionTrait
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
         $key = array_search($element, $this->toArray(), true);
-        if ($key !== false) {
+        if (false !== $key) {
             $this->delete($key);
 
             return true;
@@ -265,6 +273,7 @@ trait CollectionTrait
 
     /**
      * @param string $key
+     *
      * @return self
      */
     public function delete(string $key)
@@ -272,12 +281,10 @@ trait CollectionTrait
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
         return $this->offsetUnset($key);
-
     }
 
     protected function __setUp_CollectionTrait()
     {
         $this->CoreTrait_require([IteratorTrait::class, ArrayAccessTrait::class], __TRAIT__);
     }
-
 }
