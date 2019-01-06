@@ -23,7 +23,9 @@ class TestIteratorAggregate implements \IteratorAggregate
 class CollectionTest extends TestCase
 {
     protected $initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     protected $shiftedArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
     /** @var Collection */
     protected $collection;
 
@@ -53,7 +55,6 @@ class CollectionTest extends TestCase
 
         $this->assertNotEquals($newCollection->toArray(), $this->initialArray);
         $this->assertEquals($this->shiftedArray, $newCollection->toArray());
-
     }
 
     public function testMap()
@@ -66,7 +67,6 @@ class CollectionTest extends TestCase
 
         $this->assertNotEquals($newArray, $this->initialArray);
         $this->assertEquals($this->shiftedArray, $newArray);
-
     }
 
     public function testFirst()
@@ -140,7 +140,7 @@ class CollectionTest extends TestCase
     public function testException()
     {
         $this->expectException(\UnexpectedValueException::class);
-        new Collection((object)$this->initialArray);
+        new Collection((object) $this->initialArray);
     }
 
     public function testIteratorAggregate()

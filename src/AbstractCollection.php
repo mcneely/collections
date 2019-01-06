@@ -13,9 +13,9 @@ use Mcneely\Core\Traits\IteratorTrait;
 use Traversable;
 
 /**
- * Class AbstractCollection
- * @package Mcneely\Collections
+ * Class AbstractCollection.
  *
+ * @package Mcneely\Collections
  */
 abstract class AbstractCollection implements Iterator, CollectionInterface, ArrayAccess
 {
