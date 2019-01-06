@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "phpunit --bootstrap vendor/autoload.php tests/",
-    "coverage": "phpunit --coverage-html=coverage --whitelist src/ --bootstrap vendor/autoload.php tests/",
+    "coverage": "phpunit --coverage-clover=coverage/coverage.xml --coverage-html=coverage --whitelist src/ --bootstrap vendor/autoload.php tests/",
     "static": "phpstan analyse -l max src/"
   },
   "config": {
