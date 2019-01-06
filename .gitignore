@@ -3,7 +3,6 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-.idea/
 
 # CMake
 cmake-build-debug/
@@ -14,6 +13,7 @@ cmake-build-release/
 
 # IntelliJ
 out/
+.idea/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -65,6 +65,7 @@ Temporary Items
 
 
 ### Composer template
+composer.lock
 composer.phar
 /vendor/
 
@@ -73,3 +74,4 @@ composer.phar
 # composer.lock
 
 /coverage/
+bin/

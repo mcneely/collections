@@ -1,14 +1,18 @@
 language: php
+dist: trusty
 
 php:
   - 7.1
   - 7.2
+  - 7.3
+  - nightly
 
 matrix:
   fast_finish: true
 
 before_script:
-  - composer -n --prefer-source install
+  - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
+  - composer -n --ignore-platform-reqs --prefer-dist install --no-dev
 
 script:
   - composer test
